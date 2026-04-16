@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameControl : MonoBehaviour
@@ -10,6 +11,10 @@ public class GameControl : MonoBehaviour
     public Transform DestinoTransform;
     public Animator DireccionAnimator;
     public Animator ElevacionAnimator;
+    public Animator IndicadorAnimator;
+    public Transform TransformIndicador;
+    public float NivelDeFuerza1;
+    public float NivelDeFuerza2;
 
     private void Start()
     {
@@ -22,7 +27,15 @@ public class GameControl : MonoBehaviour
         Vector3 direccion = (DestinoTransform.position - BalonTransform.position).normalized;
 
         //print("Pelota pateada");
-        BalonRigidBody.AddForce(direccion * Fuerza, ForceMode.Impulse);
+        BalonRigidBody.AddForce(direccion * NivelDeFuerza2, ForceMode.Impulse);
+    }
+    public void DetenerBarraFuerza()
+    {
+        IndicadorAnimator.speed = 0;
+        IndicadorAnimator.Update(0);
+
+        NivelDeFuerza1 = TransformIndicador.localPosition.y;
+        NivelDeFuerza2 = Mathf.InverseLerp(0f, 35.76f, NivelDeFuerza1);
     }
 
 public void PosicionarBalon()
