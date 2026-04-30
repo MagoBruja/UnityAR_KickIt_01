@@ -13,8 +13,10 @@ public class GameControl : MonoBehaviour
     public Animator ElevacionAnimator;
     public Animator IndicadorAnimator;
     public Transform TransformIndicador;
+
     public float NivelDeFuerza1;
     public float NivelDeFuerza2;
+    public Transform BarraFuerza__IndicadorTransform;
 
     private void Start()
     {
@@ -24,10 +26,9 @@ public class GameControl : MonoBehaviour
 
     public void PatearPelota()
     {
-        Vector3 direccion = (DestinoTransform.position - BalonTransform.position).normalized;
-
-        //print("Pelota pateada");
-        BalonRigidBody.AddForce(direccion * NivelDeFuerza2, ForceMode.Impulse);
+        Vector3 direccion = (DestinoTransform.position - BalonTransform.position). normalized;
+        float NivelDeFuerza1 = BarraFuerza__IndicadorTransform.localPosition.y;       
+        float NivelDeFuerza2 = Mathf.InverseLerp(0f, 70f, NivelDeFuerza1);
     }
     public void DetenerBarraFuerza()
     {
@@ -45,5 +46,29 @@ public void PosicionarBalon()
         BalonRigidBody.Sleep();
         BalonTransform.position = new Vector3(0f, 0.5f, 0f);
         BalonTransform.rotation = Quaternion.identity;
+    }
+     
+public void FijarHorizontal()
+    {
+        DireccionAnimator.speed = 0;
+        ElevacionAnimator.speed = 1;
+    }
+
+    public void FijarVertical()
+    {
+        DireccionAnimator.speed = 0;
+        ElevacionAnimator.speed = 0;
+    }
+
+    public void ReiniciarHorizontal()
+    {
+        DireccionAnimator.speed = 1;
+        ElevacionAnimator.speed = 0;
+    }
+
+    public void ReiniciarVertical()
+    {
+        DireccionAnimator.speed = 0;
+        ElevacionAnimator.speed = 1;
     }
 }
